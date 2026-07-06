@@ -50,8 +50,7 @@
   .mcard .mdot{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent);flex:none}
   .mcard .mname{font-weight:600;font-size:13.5px}
   .mcard .mrole{font-size:10px;color:var(--text-3);text-transform:uppercase;letter-spacing:.5px;margin-left:auto}
-  .mcard .mdesc{font-size:11.5px;color:var(--text-3);margin-top:6px;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-  .mcard .mcaps{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+  .mcard .mcaps{display:flex;flex-wrap:wrap;gap:3px;margin-top:7px}
   .cap{font-size:9.5px;padding:2px 7px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--text-2);white-space:nowrap}
   .side-foot{padding:12px 16px;border-top:1px solid var(--border);font-size:11px;color:var(--text-3);line-height:1.5}
   .side-foot b{color:var(--text-2);font-weight:600}
@@ -62,11 +61,49 @@
   .topbar .cur{display:flex;align-items:center;gap:9px;font-weight:600;font-size:14px}
   .topbar .cur .cdot{width:8px;height:8px;border-radius:50%;background:var(--accent)}
   .topbar .spacer{flex:1}
+  .tab{font-size:12.5px;font-weight:600;color:var(--text-3);padding:6px 16px;border-radius:9px;cursor:pointer;transition:.15s;border:1px solid transparent}
+  .tab:hover{color:var(--text-2);background:var(--panel)}
+  .tab.active{color:var(--text);background:var(--panel);border-color:var(--border)}
+  .tab-bar{display:flex;align-items:center;gap:4px}
   .pill{font-size:11px;padding:4px 10px;border-radius:20px;background:var(--panel);border:1px solid var(--border);color:var(--text-2);display:flex;align-items:center;gap:6px}
   .pill .d{width:6px;height:6px;border-radius:50%;background:var(--ok)}
   .iconbtn{width:34px;height:34px;border-radius:9px;border:1px solid transparent;background:transparent;color:var(--text-2);display:grid;place-items:center;transition:.15s}
   .iconbtn:hover{background:var(--panel);border-color:var(--border);color:var(--text)}
   .iconbtn svg{width:18px;height:18px}
+
+  /* ---------- api showcase ---------- */
+  .api-show{max-width:780px;margin:0 auto;padding:5vh 24px 40px}
+  .api-hero h2{font-size:26px;font-weight:700;letter-spacing:-.5px;margin:0 0 6px}
+  .api-hero h2 span{background:linear-gradient(90deg,var(--brand),var(--brand-2));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .api-hero .sub{color:var(--text-2);font-size:14px;max-width:580px}
+  .api-hero .caps-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .ccap{font-size:12px;padding:5px 12px;border-radius:20px;background:var(--panel);border:1px solid var(--border);color:var(--text-2);display:flex;align-items:center;gap:7px}
+  .ccap svg{width:13px;height:13px;color:var(--brand)}
+  .api-section{margin-top:30px}
+  .api-section h3{font-size:13px;font-weight:600;color:var(--text-2);text-transform:uppercase;letter-spacing:.5px;margin:0 0 10px}
+  .model-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+  .mcard-sm{background:var(--panel);border:1px solid var(--border);border-radius:11px;padding:13px 14px;transition:.15s}
+  .mcard-sm:hover{border-color:var(--border-2);background:var(--panel-2)}
+  .mcard-sm .ms-top{display:flex;align-items:center;gap:9px;margin-bottom:8px}
+  .mcard-sm .ms-dot{width:9px;height:9px;border-radius:50%;flex:none;box-shadow:0 0 10px currentColor}
+  .mcard-sm .ms-name{font-weight:600;font-size:13.5px}
+  .mcard-sm .ms-param{font-size:10.5px;color:var(--text-3);margin-left:auto}
+  .mcard-sm .ms-desc{font-size:11.5px;color:var(--text-3);margin-bottom:8px;line-height:1.4}
+  .mcard-sm .mcaps{display:flex;flex-wrap:wrap;gap:3px}
+  .endpoint{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;transition:.15s}
+  .endpoint:hover{border-color:var(--border-2)}
+  .endpoint .method{font-family:var(--mono);font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;min-width:40px;text-align:center}
+  .endpoint .method.post{background:rgba(52,211,153,.15);color:var(--ok)}
+  .endpoint .method.get{background:rgba(124,156,255,.15);color:var(--brand)}
+  .endpoint .ep-path{font-family:var(--mono);font-size:12.5px;color:var(--text);flex:1}
+  .endpoint .ep-desc{font-size:11.5px;color:var(--text-3);min-width:100px;text-align:right}
+  .curl-block{background:#0a0c11;border:1px solid var(--border);border-radius:10px;padding:14px 16px;font-family:var(--mono);font-size:12px;color:#cdd6e4;overflow-x:auto;margin-top:8px;position:relative;max-height:140px;overflow-y:hidden;transition:.3s}
+  .curl-block.expanded{max-height:800px}
+  .curl-block .curl-tag{position:absolute;top:8px;right:10px;font-size:10.5px;padding:3px 8px;border-radius:5px;background:var(--panel-2);color:var(--text-2);cursor:pointer;border:1px solid var(--border)}
+  .curl-block .curl-tag:hover{color:var(--text)}
+  .curl-block code{font-size:12px}
+  .tab-panel{display:none}
+  .tab-panel.active{display:block}
 
   /* ---------- messages ---------- */
   .msgs{flex:1;overflow-y:auto;scroll-behavior:smooth}
@@ -277,25 +314,28 @@
     <div class="topbar">
       <button class="iconbtn menu-btn" onclick="toggleSidebar(true)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
       <div class="cur"><span class="cdot" id="curDot"></span><span id="curName">Eburon Pro</span></div>
+      <div class="tab-bar" id="tabBar"><span class="tab active" data-tab="api" onclick="switchTab('api')">Reference</span><span class="tab" data-tab="play" onclick="switchTab('play')">Playground</span></div>
       <div class="spacer"></div>
       <div class="pill" title="Gateway status"><span class="d"></span><span id="statusTxt">online</span></div>
       <button class="iconbtn" id="settingsBtn" title="Settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
     </div>
 
-    <div class="msgs" id="msgs">
-      <div class="msgs-inner" id="msgsInner"></div>
+    <div class="tab-panel active" id="tab-api">
+      <div class="api-show" id="apiShow"></div>
     </div>
-
-    <div class="composer">
-      <div class="composer-inner">
-        <div class="tools-row" id="toolsRow"></div>
-        <div class="imgs-attach" id="attachRow" style="display:none"></div>
-        <div class="compose-box">
-          <button class="cbtn attach" id="attachBtn" title="Attach image (vision models)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></button>
-          <textarea id="input" rows="1" placeholder="Ask Eburon to build, refactor, or analyze code…  (Shift+Enter for newline)"></textarea>
-          <button class="cbtn send" id="sendBtn" title="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+    <div class="tab-panel" id="tab-play">
+      <div class="msgs" id="msgs"><div class="msgs-inner" id="msgsInner"></div></div>
+      <div class="composer">
+        <div class="composer-inner">
+          <div class="tools-row" id="toolsRow"></div>
+          <div class="imgs-attach" id="attachRow" style="display:none"></div>
+          <div class="compose-box">
+            <button class="cbtn attach" id="attachBtn" title="Attach image (vision models)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg></button>
+            <textarea id="input" rows="1" placeholder="Ask Eburon to build, refactor, or analyze code…  (Shift+Enter for newline)"></textarea>
+            <button class="cbtn send" id="sendBtn" title="Send"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></button>
+          </div>
+          <div class="composer-foot">Eburon AI · founded by Jo Lernout · models may reason before answering. <a href="https://api.eburon.ai/v1/models" target="_blank">API</a></div>
         </div>
-        <div class="composer-foot">Eburon AI · founded by Jo Lernout · models may reason before answering. <a href="https://api.eburon.ai/v1/models" target="_blank">API</a></div>
       </div>
     </div>
   </main>
@@ -334,11 +374,21 @@ const CAP_ICONS = {
 };
 const CAP_LABELS = {'streaming':'Streaming','thinking':'Thinking','structured-outputs':'Structured Outputs','vision':'Vision','embeddings':'Embeddings','tool-calling':'Tool Calling','web-search':'Web Search'};
 const EXAMPLES = [
-  {t:'Generate a REST API',d:'Scaffold an Express endpoint with validation & tests'},
-  {t:'Refactor a function',d:'Make it pure, typed, and handle edge cases'},
-  {t:'Analyze a screenshot',d:'Describe the UI and produce matching code (Vision)'},
-  {t:'Search & summarize',d:'Find the latest docs and summarize key APIs'}
+  {t:'Generate a REST API endpoint with validation'},
+  {t:'Refactor this function to be pure and typed'},
+  {t:'Analyze a screenshot and produce matching HTML/CSS'},
+  {t:'Search the web for the latest docs and summarize'}
 ];
+const ENDPOINTS = [
+  {method:'POST',path:'/v1/chat/completions',desc:'Chat (streaming, tools, vision)'},
+  {method:'POST',path:'/v1/chat/collab',desc:'Multi‑model collab loop'},
+  {method:'GET',path:'/v1/models',desc:'Model list with capabilities'},
+  {method:'POST',path:'/v1/embeddings',desc:'768‑dim vectors'},
+  {method:'GET',path:'/health',desc:'Gateway status'}
+];
+const CURL_EXAMPLE = `curl https://api.eburon.ai/v1/chat/completions \\
+  -H "Content-Type: application/json" \\
+  -d '{"model":"eburon-pro","messages":[{"role":"user","content":"Write add(a,b) in Python"}],"stream":true}'`;
 
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2200)}
 
@@ -350,7 +400,7 @@ async function loadModels(){
     const r = await fetch(API+'/models'); const d = await r.json();
     d.data.forEach(m=>state.models[m.id]=m);
   }catch(e){ toast('Failed to load models'); }
-  renderModels(); renderTopbar(); renderTools(); renderEmpty();
+  renderModels(); renderTopbar(); renderTools(); renderApiShow();
 }
 function renderModels(){
   const list = $('#modelList'); list.innerHTML='';
@@ -359,9 +409,8 @@ function renderModels(){
     el.className = 'mcard'+(m.id===state.model?' active':'');
     el.style.setProperty('--accent', modelAccent(m.id));
     el.innerHTML = `<div class="mtop"><div class="mdot"></div><div class="mname">${m.name}</div><div class="mrole">${m.role}</div></div>
-      <div class="mdesc">${m.description}</div>
       <div class="mcaps">${m.capabilities.map(c=>`<span class="cap">${CAP_LABELS[c]||c}</span>`).join('')}</div>`;
-    el.onclick=()=>{ if(m.role==='embed'){toast('Eburon Embed is for embeddings (/v1/embeddings), not chat');return} state.model=m.id; if(!m.capabilities.includes('vision'))state.images=[]; renderModels();renderTopbar();renderTools();renderEmpty(); if(window.innerWidth<=860)toggleSidebar(false); };
+    el.onclick=()=>{ if(m.role==='embed'){toast('Embeddings only');return} state.model=m.id; if(!m.capabilities.includes('vision'))state.images=[]; renderModels();renderTopbar();renderApiShow(); if(window.innerWidth<=860)toggleSidebar(false); };
     list.appendChild(el);
   });
 }
@@ -396,24 +445,28 @@ function renderTools(){
   const meta=document.createElement('div'); meta.className='meta'; meta.textContent=`ctx ${m.context_length.toLocaleString()} · ${m.parameters}`; row.appendChild(meta);
 }
 
-function renderEmpty(){
-  const inner=$('#msgsInner');
-  if(state.messages.length){ inner.innerHTML=''; renderMessages(); return; }
-  const m=curModel(); if(!m) return;
-  const caps = ['streaming','thinking','structured-outputs','vision','embeddings','tool-calling','web-search']
-    .filter(c=>Object.values(state.models).some(mm=>mm.capabilities.includes(c)));
-  inner.innerHTML=`<div class="empty">
-    <div class="e-logo"><svg viewBox="0 0 32 32"><path d="M8 22 L16 8 L24 22" fill="none" stroke="#7C9CFF" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="20" r="2" fill="#22D3EE"/></svg></div>
-    <h1>Eburon <span>AI</span></h1>
-    <div class="sub">Sovereign agentic coding models by Jo Lernout. Autonomous reasoning, vision-grounded implementation, live tools, and structured outputs — behind an OpenAI-compatible API.</div>
-    <div class="caps-row">${caps.map(c=>`<span class="ccap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${CAP_ICONS[c]||''}</svg>${CAP_LABELS[c]}</span>`).join('')}</div>
-    <div class="examples">${EXAMPLES.map((e,i)=>`<div class="ex" onclick="useExample(${i})"><div class="et">${e.t}</div><div class="ed">${e.d}</div></div>`).join('')}</div>
-  </div>`;
+function renderEmpty(){}
+function useExample(i){ switchTab('play'); $('#input').value=EXAMPLES[i].t; autoGrow(); $('#input').focus(); }
+
+function renderApiShow(){
+  const el = $('#apiShow'); if(!el || !Object.keys(state.models).length) return;
+  const caps = ['streaming','thinking','structured-outputs','vision','embeddings','tool-calling','web-search'];
+  const cards = Object.values(state.models).map(m=>`
+    <div class="mcard-sm"><div class="ms-top"><div class="ms-dot" style="color:${modelAccent(m.id)}"></div><div class="ms-name">${m.name}</div><div class="ms-param">${m.parameters} · ${m.quantization}${m.dimensions?' · '+m.dimensions+'d':''}</div></div><div class="ms-desc">${m.description}</div><div class="mcaps">${m.capabilities.map(c=>`<span class="cap">${CAP_LABELS[c]||c}</span>`).join('')}</div></div>
+  `).join('');
+  const eps = ENDPOINTS.map(e=>`<div class="endpoint"><span class="method ${e.method}">${e.method}</span><span class="ep-path">${e.path}</span><span class="ep-desc">${e.desc}</span></div>`).join('');
+  el.innerHTML = `<div class="api-hero"><h2>Eburon <span>AI</span></h2><div class="sub">Sovereign agentic coding by Jo Lernout — streaming, thinking, vision, tools, structured outputs, embeddings, web search. OpenAI-compatible.</div><div class="caps-row">${caps.map(c=>`<span class="ccap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${CAP_ICONS[c]||''}</svg>${CAP_LABELS[c]}</span>`).join('')}</div></div>
+    <div class="api-section"><h3>Models</h3><div class="model-cards">${cards||'<span class="cap" style="font-size:12px">Loading…</span>'}</div></div>
+    <div class="api-section"><h3>Endpoints</h3>${eps}<div class="curl-block expanded" id="curlBlock"><code>${CURL_EXAMPLE}</code><span class="curl-tag" onclick="toggleCurl()">collapse</span></div></div>`;
 }
-function useExample(i){
-  const map=['Build a small Express REST API for a todo resource with input validation and a smoke test.','Refactor this function to be pure, fully typed, and handle empty/edge inputs. Paste the code you want refactured.','I will attach a screenshot — describe the UI layout and produce matching HTML/CSS. (Switch to Eburon Vision and attach an image.)','Search the web for the latest Node.js LTS version and summarize what changed. (Web search on, Eburon Vision.)'];
-  $('#input').value=map[i]||''; autoGrow(); $('#input').focus();
+function toggleCurl(){ const c=$('#curlBlock'); c.classList.toggle('expanded'); c.querySelector('.curl-tag').textContent=c.classList.contains('expanded')?'collapse':'expand'; }
+function switchTab(tab){
+  if(tab==='play' && !state.messages.length){ const inner=$('#msgsInner'); inner.innerHTML=''; }
+  else if(tab==='play') renderMessages();
+  $$('#tab-api, #tab-play').forEach(el=>el.classList.toggle('active',el.id==='tab-'+tab));
+  $$('#tabBar .tab').forEach(el=>el.classList.toggle('active',el.dataset.tab===tab));
 }
+function $$(sel){ return document.querySelectorAll(sel); }
 
 function renderMessages(){
   const inner=$('#msgsInner'); const wasAtBottom = atBottom();
@@ -498,6 +551,7 @@ async function send(){
   const userMsg={role:'user',content: typeof content==='string'?content:content.map(p=>p.type==='text'?p.text:'').join(''), images: state.images.slice(), html: typeof content==='string'?renderMarkdown(content):''};
   state.messages.push(userMsg);
   state.images=[]; renderAttach(); $('#input').value=''; autoGrow();
+  switchTab('play');
   const asst={role:'assistant',content:'',thinking:'',tools:[],streaming:true};
   state.messages.push(asst);
   renderMessages(); scrollTop();
@@ -638,7 +692,7 @@ function setMax(v){state.maxTokens=+v;$('#maxVal').textContent=v}
 function setTopP(v){state.topP=+v;$('#toppVal').textContent=(+v).toFixed(2)}
 function toggleDrawer(open){$('#drawer').classList.toggle('open',open);$('#overlay').classList.toggle('show',open)}
 function toggleSidebar(open){$('#sidebar').classList.toggle('open',open);$('#scrim').classList.toggle('show',open)}
-function newChat(){ if(state.streaming){stop()} state.messages=[]; state.artifacts={}; renderEmpty(); }
+function newChat(){ if(state.streaming){stop()} state.messages=[]; state.artifacts={}; switchTab('play'); }
 
 $('#sendBtn').onclick=send;
 $('#input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
