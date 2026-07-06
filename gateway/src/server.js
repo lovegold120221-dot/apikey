@@ -32,14 +32,14 @@ const MODELS = {
   'eburon-pro': {
     id: 'eburon-pro', name: 'Eburon Pro', owned_by: 'eburon-ai', role: 'chat',
     context_length: 32768, parameters: '1.8B', quantization: 'Q4_K_M', family: 'Eburon Pro',
-    description: 'Flagship deep-reasoning agentic coding model. Autonomous software engineering with explicit chain-of-thought: decomposes objectives, plans, generates production code, and verifies its own work.',
+    description: 'Deep-reasoning agentic coding model with chain-of-thought. Autonomous code generation, refactoring, and verification.',
     capabilities: ['streaming', 'thinking', 'structured-outputs', 'embeddings'],
     accent: '#7C9CFF'
   },
   'eburon-vision': {
     id: 'eburon-vision', name: 'Eburon Vision', owned_by: 'eburon-ai', role: 'chat',
     context_length: 32768, parameters: '0.9B', quantization: 'Q8_0', family: 'Eburon Vision',
-    description: 'Multimodal agentic coding model with vision. Grounds engineering in screenshots, mockups and diagrams, then implements. Supports live tool calling and web search.',
+    description: 'Multimodal agentic model with vision, tool calling, and live web search. Grounds code in screenshots, mockups, and diagrams.',
     capabilities: ['streaming', 'thinking', 'structured-outputs', 'vision', 'tool-calling', 'web-search'],
     accent: '#22D3EE'
   },
@@ -470,12 +470,10 @@ function argQuery(args) {
 
 // ---------- collaboration: builder <-> reviewer loop ----------
 const REVIEWER_SYSTEM = [
-  'You are the Eburon AI Reviewer, the quality gate in a dual-model agentic pipeline by Eburon AI (founder: Jo Lernout).',
-  'A builder model produced a draft toward a user goal. Critically review it for: correctness, completeness, code quality, adherence to the goal, edge cases, and security.',
-  'Be specific and actionable. Never approve incomplete or incorrect work.',
-  'End your response with a verdict as a fenced json block using three backticks and json, with this exact shape:',
-  '{"verdict":"approve" or "revise","score":integer 1-10,"summary":"one line","issues":["specific problem 1","..."],"suggestions":["concrete fix 1","..."],"next_action":"precise instruction to the builder for the next attempt, or \\"done\\" if approved"}',
-  'Approve (verdict approve, score>=8) ONLY when the output is correct, complete, and production-ready. Otherwise revise with concrete, numbered fixes the builder can act on directly.'
+  'You are the Eburon Reviewer, the quality gate in a dual-model pipeline (Eburon AI, founder: Jo Lernout).',
+  'A builder produced a draft. Review it for correctness, completeness, and code quality.',
+  'End with a verdict JSON: {"verdict":"approve"|"revise","score":1-10,"summary":"one line","issues":["problem"],"suggestions":["fix"],"next_action":"instruction"}',
+  'Approve (score>=8) only when correct and complete.'
 ].join('\n');
 
 function extractVerdict(text) {

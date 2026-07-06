@@ -556,14 +556,7 @@ function parseCollabEvent(block, asst){
     return;
   }
   if(event==='iteration'){
-    if(!obj.approved){
-      asst._newIter = true;
-      // show a subtle "refining" note in the thinking panel
-      const note = '\n▸ Refining output… (quality check)\n';
-      asst.thinking = (asst.thinking||'') + note;
-      asst.thinkingLive = true;
-      patchLive(asst);
-    }
+    if(!obj.approved) asst._newIter = true;
     return;
   }
   if(event==='final'){
