@@ -468,6 +468,171 @@ function argQuery(args) {
   return args.query || args.q || args.search || Object.values(args).find(v => typeof v === 'string') || '';
 }
 
+// ---------- collaboration: builder <-> reviewer loop ----------
+const REVIEWER_SYSTEM = [
+  'You are the Eburon AI Reviewer, the quality gate in a dual-model agentic pipeline by Eburon AI (founder: Jo Lernout).',
+  'A builder model produced a draft toward a user goal. Critically review it for: correctness, completeness, code quality, adherence to the goal, edge cases, and security.',
+  'Be specific and actionable. Never approve incomplete or incorrect work.',
+  'End your response with a verdict as a fenced json block using three backticks and json, with this exact shape:',
+  '{"verdict":"approve" or "revise","score":integer 1-10,"summary":"one line","issues":["specific problem 1","..."],"suggestions":["concrete fix 1","..."],"next_action":"precise instruction to the builder for the next attempt, or \\"done\\" if approved"}',
+  'Approve (verdict approve, score>=8) ONLY when the output is correct, complete, and production-ready. Otherwise revise with concrete, numbered fixes the builder can act on directly.'
+].join('\n');
+
+function extractVerdict(text) {
+  if (!text) return null;
+  let candidates = [];
+  const fences = [...text.matchAll(/```(?:json)?\s*([\s\S]*?)```/g)];
+  for (const f of fences) candidates.push(f[1]);
+  const braces = [...text.matchAll(/\{[\s\S]*\}/g)];
+  for (const b of braces) candidates.push(b[0]);
+  candidates.push(text);
+  for (const c of candidates) {
+    try {
+      const o = JSON.parse(c.trim());
+      if (o && typeof o === 'object' && (o.verdict === 'approve' || o.verdict === 'revise')) {
+        return normalizeVerdict(o);
+      }
+    } catch (e) { /* try regex salvage */ }
+  }
+  // regex salvage for slightly-malformed JSON
+  const vm = text.match(/"verdict"\s*:\s*"(approve|revise)"/i);
+  if (!vm) return null;
+  const sm = text.match(/"score"\s*:\s*(\d+)/);
+  const sum = text.match(/"summary"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+  const nam = text.match(/"next_action"\s*:\s*"((?:[^"\\]|\\.)*)"/);
+  const issues = extractJsonStringArray(text, 'issues');
+  const suggestions = extractJsonStringArray(text, 'suggestions');
+  return normalizeVerdict({
+    verdict: vm[1],
+    score: sm ? parseInt(sm[1], 10) : (vm[1] === 'approve' ? 9 : 6),
+    summary: sum ? sum[1].replace(/\\"/g, '"') : '',
+    issues, suggestions,
+    next_action: nam ? nam[1].replace(/\\"/g, '"') : (vm[1] === 'approve' ? 'done' : 'Improve per issues above.')
+  });
+}
+function extractJsonStringArray(text, key) {
+  const m = text.match(new RegExp('"' + key + '"\\s*:\\s*\\[([\\s\\S]*?)\\]', 'i'));
+  if (!m) return [];
+  return [...m[1].matchAll(/"((?:[^"\\]|\\.)*)"/g)].map(x => x[1].replace(/\\"/g, '"').replace(/\\n/g, '\n')).filter(s => s.trim());
+}
+function normalizeVerdict(o) {
+  if (!Array.isArray(o.issues)) o.issues = o.issues ? [String(o.issues)] : [];
+  if (!Array.isArray(o.suggestions)) o.suggestions = o.suggestions ? [String(o.suggestions)] : [];
+  if (typeof o.score !== 'number') o.score = o.verdict === 'approve' ? 9 : 6;
+  if (typeof o.next_action !== 'string') o.next_action = o.verdict === 'approve' ? 'done' : 'Improve the draft per the issues above.';
+  if (typeof o.summary !== 'string') o.summary = '';
+  return o;
+}
+
+function collabEvent(res, event, obj) {
+  res.write('event: eburon.collab.' + event + '\n');
+  res.write('data: ' + JSON.stringify(obj) + '\n\n');
+}
+
+async function runModelOnce(payload) {
+  let content = '', reasoning = '';
+  await ollamaStream(payload, msg => {
+    if (msg.message) {
+      if (msg.message.content) content += msg.message.content;
+      if (msg.message.thinking) reasoning += msg.message.thinking;
+    }
+  });
+  return { content, reasoning };
+}
+
+async function handleCollab(res, bodyStr) {
+  let body;
+  try { body = JSON.parse(bodyStr || '{}'); } catch (e) { return sendError(res, 400, 'Invalid JSON'); }
+  const builderModel = body.builder || body.builder_model || 'eburon-pro';
+  const reviewerModel = body.reviewer || body.reviewer_model || 'eburon-vision';
+  if (!MODELS[builderModel] || MODELS[builderModel].role !== 'chat') return sendError(res, 404, 'Builder model not found: ' + builderModel);
+  if (!MODELS[reviewerModel] || MODELS[reviewerModel].role !== 'chat') return sendError(res, 404, 'Reviewer model not found: ' + reviewerModel);
+  const maxIter = Math.min(Math.max(parseInt(body.max_iterations || '3', 10), 1), 6);
+  const think = body.think !== undefined ? !!body.think : true;
+  const approveScore = parseFloat(body.approve_score || '8');
+
+  let goalMessages;
+  try { goalMessages = await convertMessages(body.messages || []); }
+  catch (e) { return sendError(res, 400, 'Message conversion failed: ' + e.message); }
+  if (!goalMessages.length) return sendError(res, 400, 'No messages provided');
+
+  const options = {};
+  if (body.max_tokens != null) options.num_predict = body.max_tokens; else options.num_predict = 400;
+  if (body.temperature != null) options.temperature = body.temperature; else options.temperature = 0.5;
+  if (body.top_p != null) options.top_p = body.top_p;
+  options.num_ctx = body.num_ctx || 8192;
+
+  setCors(res);
+  res.writeHead(200, {
+    'Content-Type': 'text/event-stream; charset=utf-8',
+    'Cache-Control': 'no-cache', 'Connection': 'keep-alive', 'X-Accel-Buffering': 'no'
+  });
+
+  collabEvent(res, 'start', { builder: builderModel, reviewer: reviewerModel, max_iterations: maxIter, builder_name: MODELS[builderModel].name, reviewer_name: MODELS[reviewerModel].name });
+
+  const goalText = goalMessages.map(m => (m.role === 'user' ? m.content : '')).filter(Boolean).join('\n').slice(0, 4000);
+  let builderMessages = goalMessages.slice();
+  let bestContent = '', bestScore = -1, lastVerdict = null;
+  const chatId = genId();
+  const created = Math.floor(Date.now() / 1000);
+
+  try {
+    for (let iter = 1; iter <= maxIter; iter++) {
+      // ---- builder turn ----
+      collabEvent(res, 'builder.start', { iteration: iter, model: builderModel });
+      const builderPayload = { model: builderModel, stream: true, think, options, messages: builderMessages };
+      let bContent = '', bReasoning = '';
+      await ollamaStream(builderPayload, msg => {
+        if (msg.message) {
+          if (msg.message.content) { bContent += msg.message.content; collabEvent(res, 'builder.delta', { iteration: iter, content: msg.message.content }); }
+          if (msg.message.thinking) { bReasoning += msg.message.thinking; collabEvent(res, 'builder.delta', { iteration: iter, reasoning: msg.message.thinking }); }
+        }
+      });
+      collabEvent(res, 'builder.done', { iteration: iter, content: bContent, reasoning: bReasoning });
+
+      if (bContent.trim().length > bestContent.trim().length * 0.5 || bestScore < 0) { bestContent = bContent; }
+
+      // ---- reviewer turn ----
+      collabEvent(res, 'review.start', { iteration: iter, model: reviewerModel });
+      const reviewUserMsg = 'USER GOAL:\n' + goalText + '\n\nBUILDER DRAFT (iteration ' + iter + '):\n' + bContent + '\n\nReview this draft against the goal. Return ONLY the verdict json object, no prose, no markdown fences.';
+      const verdictSchema = { type: 'object', properties: { verdict: { type: 'string', enum: ['approve', 'revise'] }, score: { type: 'integer' }, summary: { type: 'string' }, issues: { type: 'array', items: { type: 'string' } }, suggestions: { type: 'array', items: { type: 'string' } }, next_action: { type: 'string' } }, required: ['verdict', 'score', 'summary', 'issues', 'suggestions', 'next_action'] };
+      const reviewerPayload = { model: reviewerModel, stream: true, think: false, format: verdictSchema, options: { num_predict: 400, temperature: 0.2 }, messages: [{ role: 'system', content: REVIEWER_SYSTEM }, { role: 'user', content: reviewUserMsg }] };
+      let rContent = '', rReasoning = '';
+      await ollamaStream(reviewerPayload, msg => {
+        if (msg.message) {
+          if (msg.message.content) { rContent += msg.message.content; collabEvent(res, 'review.delta', { iteration: iter, content: msg.message.content }); }
+          if (msg.message.thinking) { rReasoning += msg.message.thinking; collabEvent(res, 'review.delta', { iteration: iter, reasoning: msg.message.thinking }); }
+        }
+      });
+      let verdict = extractVerdict(rContent);
+      if (!verdict) {
+        verdict = { verdict: 'revise', score: 5, summary: 'Review incomplete; defaulting to revise.', issues: ['Reviewer did not return a parseable verdict.'], suggestions: ['Re-run the builder and request a cleaner, complete output.'], next_action: 'Produce a complete, clean response to the original goal.' };
+      }
+      lastVerdict = verdict;
+      if (verdict.score > bestScore) { bestScore = verdict.score; bestContent = bContent; }
+      collabEvent(res, 'review.done', { iteration: iter, content: rContent, reasoning: rReasoning, verdict });
+
+      const approved = verdict.verdict === 'approve' || verdict.score >= approveScore;
+      collabEvent(res, 'iteration', { iteration: iter, verdict: verdict.verdict, score: verdict.score, approved, finished: approved || iter >= maxIter });
+
+      if (approved) break;
+
+      // ---- feed reviewer feedback to builder for next iteration ----
+      const feedback = 'REVIEWER FEEDBACK (score ' + verdict.score + '/10):\nIssues:\n- ' + verdict.issues.join('\n- ') + '\nSuggestions:\n- ' + verdict.suggestions.join('\n- ') + '\nNext action: ' + verdict.next_action + '\n\nProduce a fully revised, complete response to the original goal that fixes every issue. Output the full artifact/code, not a diff.';
+      builderMessages = goalMessages.concat([{ role: 'assistant', content: bContent }, { role: 'user', content: feedback }]);
+    }
+
+    // ---- final ----
+    collabEvent(res, 'final', { content: bestContent, score: bestScore, iterations: maxIter, verdict: lastVerdict });
+    // also emit a normal OpenAI-style final chunk so generic clients get content
+    writeChunk(res, chatId, builderModel, { role: 'assistant', content: bestContent }, 'stop');
+    res.write('data: [DONE]\n\n');
+    res.end();
+  } catch (e) {
+    try { collabEvent(res, 'error', { message: e.message }); writeChunk(res, chatId, builderModel, { content: '\n\n[error: ' + e.message + ']' }, 'stop'); res.write('data: [DONE]\n\n'); res.end(); } catch (_) {}
+  }
+}
+
 // ---------- static files ----------
 function serveStatic(res, urlPath) {
   let p = decodeURIComponent(urlPath.split('?')[0]);
@@ -509,6 +674,10 @@ const server = http.createServer(async (req, res) => {
     if (method === 'POST' && (p === '/v1/embeddings' || p === '/api/embeddings' || p === '/embeddings')) {
       const body = await readBody(req);
       return handleEmbeddings(res, body);
+    }
+    if (method === 'POST' && (p === '/v1/chat/collab' || p === '/api/chat/collab' || p === '/chat/collab')) {
+      const body = await readBody(req);
+      return handleCollab(res, body);
     }
 
     // everything else → static frontend

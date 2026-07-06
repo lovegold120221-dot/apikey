@@ -153,6 +153,76 @@
   .caret{display:inline-block;width:7px;height:15px;background:var(--brand);border-radius:1px;vertical-align:text-bottom;animation:blink 1s steps(2) infinite;margin-left:1px}
   @keyframes blink{50%{opacity:0}}
 
+  /* ---------- web artifact ---------- */
+  .artifact{border:1px solid var(--border-2);border-radius:13px;overflow:hidden;margin:0 0 14px;background:var(--panel);box-shadow:var(--shadow-sm)}
+  .artifact-bar{display:flex;align-items:center;gap:10px;padding:8px 10px 8px 14px;background:var(--panel-2);border-bottom:1px solid var(--border)}
+  .artifact-label{font-size:11.5px;font-weight:600;color:var(--text-2);display:flex;align-items:center;gap:7px}
+  .artifact-label svg{width:14px;height:14px;color:var(--brand-2)}
+  .artifact-label .adot{width:7px;height:7px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok)}
+  .artifact-tabs{display:flex;gap:3px;margin-left:6px}
+  .artifact-tab{padding:5px 13px;border-radius:8px;font-size:12px;font-weight:500;border:1px solid transparent;background:none;color:var(--text-3);transition:.15s}
+  .artifact-tab:hover{color:var(--text-2)}
+  .artifact-tab.active{background:var(--panel);border-color:var(--border);color:var(--text)}
+  .artifact-actions{margin-left:auto;display:flex;gap:3px}
+  .artifact-act{width:30px;height:30px;border-radius:8px;border:1px solid transparent;background:none;color:var(--text-3);display:grid;place-items:center;transition:.15s}
+  .artifact-act:hover{background:var(--panel);border-color:var(--border);color:var(--text)}
+  .artifact-act svg{width:15px;height:15px}
+  .artifact-preview{background:#fff;position:relative}
+  .artifact-preview iframe{width:100%;height:400px;border:none;display:block;background:#fff}
+  .artifact-preview.hide{display:none}
+  .artifact-code{display:none;background:#0a0c11;border-radius:0 0 13px 13px}
+  .artifact-code.show{display:block}
+  .artifact-code pre{margin:0;border:none;border-radius:0;max-height:400px;overflow:auto}
+  .artifact-code pre code{font-size:12.5px;line-height:1.6}
+  .artifact-empty{padding:40px;text-align:center;color:var(--text-3);font-size:13px;background:#fff}
+  .artifact-resizer{position:absolute;bottom:0;left:0;right:0;height:6px;cursor:ns-resize;background:transparent;transition:.15s}
+  .artifact-resizer:hover{background:rgba(124,156,255,.2)}
+  .artifact-resizer::after{content:"";position:absolute;bottom:1px;left:50%;transform:translateX(-50%);width:36px;height:3px;border-radius:3px;background:var(--border-2)}
+
+  /* ---------- collaboration panel ---------- */
+  .collab{border:1px solid var(--border-2);border-radius:14px;overflow:hidden;margin:0 0 14px;background:var(--panel)}
+  .collab-header{display:flex;align-items:center;gap:10px;padding:11px 14px;background:linear-gradient(90deg,rgba(124,156,255,.07),rgba(34,211,238,.07));border-bottom:1px solid var(--border)}
+  .collab-header .ch-icon{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,var(--brand),var(--brand-2));display:grid;place-items:center;flex:none}
+  .collab-header .ch-icon svg{width:15px;height:15px;color:#0a0c11}
+  .collab-header .ch-title{font-size:13px;font-weight:600;color:var(--text)}
+  .collab-header .ch-roles{font-size:11.5px;color:var(--text-2);display:flex;align-items:center;gap:7px;margin-left:4px}
+  .collab-role{padding:2px 9px;border-radius:20px;font-weight:600;font-size:11px}
+  .collab-role.builder{background:rgba(124,156,255,.15);color:var(--brand)}
+  .collab-role.reviewer{background:rgba(34,211,238,.15);color:var(--brand-2)}
+  .collab-arrow{color:var(--text-3);font-size:13px}
+  .collab-status{margin-left:auto;font-size:11px;color:var(--text-3);display:flex;align-items:center;gap:6px}
+  .collab-status .sp{width:11px;height:11px;border:2px solid rgba(124,156,255,.25);border-top-color:var(--brand);border-radius:50%;animation:spin .7s linear infinite}
+  .collab-iter{border-bottom:1px solid var(--border)}
+  .collab-iter:last-child{border-bottom:none}
+  .collab-iter-head{display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;user-select:none;font-size:12.5px;font-weight:600;color:var(--text-2)}
+  .collab-iter-head:hover{background:rgba(255,255,255,.02)}
+  .collab-iter-head .chev{width:14px;height:14px;transition:.2s;color:var(--text-3);flex:none}
+  .collab-iter.open .collab-iter-head .chev{transform:rotate(90deg)}
+  .collab-iter-head .itnum{color:var(--text)}
+  .collab-verdict-badge{margin-left:auto;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:5px}
+  .collab-verdict-badge.approve{background:rgba(52,211,153,.15);color:var(--ok);border:1px solid rgba(52,211,153,.3)}
+  .collab-verdict-badge.revise{background:rgba(251,191,36,.15);color:var(--warn);border:1px solid rgba(251,191,36,.3)}
+  .collab-verdict-badge.pending{background:var(--panel-3);color:var(--text-3);border:1px solid var(--border)}
+  .collab-verdict-badge .sc{font-family:var(--mono);opacity:.8}
+  .collab-iter-body{padding:0 14px 14px;display:none}
+  .collab-iter.open .collab-iter-body{display:block}
+  .collab-sub{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--text-3);margin:12px 0 6px;display:flex;align-items:center;gap:6px}
+  .collab-sub .model-tag{padding:1px 7px;border-radius:20px;font-size:10px;text-transform:none;letter-spacing:0}
+  .collab-sub .model-tag.pro{background:rgba(124,156,255,.12);color:var(--brand)}
+  .collab-sub .model-tag.vision{background:rgba(34,211,238,.12);color:var(--brand-2)}
+  .collab-feedback{background:var(--bg-2);border:1px solid var(--border);border-radius:10px;padding:10px 13px;margin:6px 0 10px;font-size:12.5px}
+  .collab-feedback .cf-summary{color:var(--text);font-weight:500;margin-bottom:8px}
+  .collab-feedback .cf-section{margin-top:6px}
+  .collab-feedback .cf-label{font-size:10.5px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--text-3);margin-bottom:3px}
+  .collab-feedback ul{margin:0;padding-left:18px;color:var(--text-2)}
+  .collab-feedback li{margin:3px 0;font-size:12px}
+  .collab-feedback .cf-next{margin-top:8px;padding:8px 10px;background:rgba(124,156,255,.08);border-radius:8px;border:1px solid rgba(124,156,255,.2);font-size:12px;color:var(--text-2)}
+  .collab-feedback .cf-next b{color:var(--brand)}
+  .collab-final-head{padding:11px 14px;background:rgba(52,211,153,.06);border-top:1px solid var(--border);font-size:12px;font-weight:600;color:var(--ok);display:flex;align-items:center;gap:8px}
+  .collab-final-head svg{width:15px;height:15px}
+  .collab-final-body{padding:14px}
+  .collab-empty{padding:24px;text-align:center;color:var(--text-3);font-size:13px}
+
   /* ---------- composer ---------- */
   .composer{flex:none;padding:0 24px 22px;background:linear-gradient(180deg,transparent,var(--bg) 30%)}
   .composer-inner{max-width:820px;margin:0 auto;position:relative}
@@ -296,7 +366,7 @@
 'use strict';
 const API = '/v1';
 const $ = s => document.querySelector(s);
-const state = { model:'eburon-pro', models:{}, messages:[], think:true, stream:true, json:false, web:false, temp:0.6, maxTokens:1024, topP:0.9, images:[], streaming:false, abort:null };
+const state = { model:'eburon-pro', models:{}, messages:[], artifacts:{}, think:true, stream:true, json:false, web:false, collab:false, collabBuilder:'eburon-pro', collabReviewer:'eburon-vision', temp:0.6, maxTokens:1024, topP:0.9, images:[], streaming:false, abort:null };
 const CAP_ICONS = {
   'streaming':'<path d="M3 12h4l3-8 4 16 3-8h4"/>',
   'thinking':'<path d="M9 21h6M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.3 1 2.5h6c0-1.2.3-1.8 1-2.5A6 6 0 0 0 12 3z"/>',
@@ -367,6 +437,13 @@ function renderTools(){
     const b=mk(state.think?'':'','<path d="M9 21h6M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.3 1 2.5h6c0-1.2.3-1.8 1-2.5A6 6 0 0 0 12 3z"/>','Thinking');
     b.onclick=()=>{state.think=!state.think; $('#setThink').checked=state.think; renderTools();}; row.appendChild(b);
   }
+  // dual-model collaboration toggle
+  const chatModels = Object.values(state.models).filter(mm=>mm.role==='chat').map(mm=>mm.id);
+  if(chatModels.length>=2){
+    const b=mk(state.collab?' on':'','<path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>','Dual-model');
+    b.title='Builder + Reviewer auto-loop'; b.style.borderColor=state.collab?'rgba(124,156,255,.4)':'';
+    b.onclick=()=>{state.collab=!state.collab; renderTools();}; row.appendChild(b);
+  }
   const meta=document.createElement('div'); meta.className='meta'; meta.textContent=`ctx ${m.context_length.toLocaleString()} · ${m.parameters}`; row.appendChild(meta);
 }
 
@@ -404,10 +481,20 @@ function buildMsg(mm,i){
   wrap.innerHTML=`<div class="ava ${kind}">${kind==='user'?'U':(kind==='vision'?'V':(kind==='embed'?'E':'P'))}</div>
     <div class="body"><div class="who">${who} ${wcap?`<span class="wcap">${wcap}</span>`:''}</div><div class="content" id="c${i}"></div></div>`;
   const c=wrap.querySelector('#c'+i);
+  if(mm.collab){
+    const kind2 = modelKind(mm.builder);
+    wrap.querySelector('.ava').className = 'ava '+kind2;
+    wrap.querySelector('.ava').textContent = kind2==='vision'?'V':'P';
+    wrap.querySelector('.who').innerHTML = 'Dual-Model Collaboration <span class="wcap">Builder ⇄ Reviewer</span>';
+    if(mm.streaming){ patchCollabLive(mm); }
+    else { const el=buildCollabEl(mm); updateCollabEl(el, mm); c.appendChild(el); }
+    return wrap;
+  }
   if(mm.thinking){ const t=document.createElement('details'); t.className='think'+(mm.thinkingLive?' live':''); t.open=!!mm.thinkingOpen; t.innerHTML=`<summary><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21h6M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.3 1 2.5h6c0-1.2.3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg><span class="tlabel">${mm.thinkingLive?'Thinking…':'Thought process'}</span><span class="tcount">${mm.thinkingWords?mm.thinkingWords+' words':''}</span></summary><div class="tbody"></div>`; t.querySelector('.tbody').textContent=mm.thinking; t.addEventListener('toggle',()=>{mm.thinkingOpen=t.open}); c.appendChild(t); }
   if(mm.images&&mm.images.length){ const d=document.createElement('div'); d.className='imgs-attach'; mm.images.forEach(src=>{const it=document.createElement('div');it.className='ithumb';it.innerHTML=`<img src="${src}">`;d.appendChild(it)}); c.appendChild(d); }
   if(mm.tools){ const tw=document.createElement('div'); tw.className='tool-wrap'; mm.tools.forEach(t=>tw.appendChild(toolEl(t))); c.appendChild(tw); }
   const body=document.createElement('div'); body.className='mdbody'; body.innerHTML=mm.html!==undefined?mm.html:renderMarkdown(mm.content||''); c.appendChild(body);
+  if(!mm.streaming) enhanceArtifacts(body);
   if(mm.streaming){ const k=document.createElement('span'); k.className='caret'; body.appendChild(k); }
   return wrap;
 }
@@ -470,8 +557,8 @@ async function send(){
   const content=buildContent(); if(content===null) return;
   const userMsg={role:'user',content: typeof content==='string'?content:content.map(p=>p.type==='text'?p.text:'').join(''), images: state.images.slice(), html: typeof content==='string'?renderMarkdown(content):''};
   state.messages.push(userMsg);
-  const inputText=$('#input').value; 
   state.images=[]; renderAttach(); $('#input').value=''; autoGrow();
+  if(state.collab) return sendCollab(userMsg);
   const asst={role:'assistant',content:'',thinking:'',tools:[],streaming:true};
   state.messages.push(asst);
   renderMessages(); scrollTop();
@@ -494,6 +581,140 @@ async function send(){
   }catch(e){ asst.content += (asst.content?'\n\n':'')+'⚠️ '+(e.message||'error'); asst.html=renderMarkdown(asst.content); }
   asst.streaming=false; asst.thinkingLive=false; if(asst.thinking) asst.thinkingWords=wordCount(asst.thinking);
   renderMessages(); setSendState(false); state.streaming=false;
+}
+
+/* ---------- collaboration: dual-model builder/reviewer loop ---------- */
+function otherChatModel(id){ return Object.values(state.models).find(m=>m.role==='chat'&&m.id!==id)?.id || id }
+function modelTag(id){ return id==='eburon-vision'?'<span class="model-tag vision">Eburon Vision</span>':'<span class="model-tag pro">Eburon Pro</span>' }
+async function sendCollab(userMsg){
+  const builder = state.collabBuilder || state.model;
+  const reviewer = state.collabReviewer || otherChatModel(builder);
+  const asst = { role:'assistant', collab:true, builder, reviewer, iterations:[], finalContent:'', finalHtml:'', streaming:true };
+  state.messages.push(asst);
+  renderMessages(); scrollTop();
+  const reqMsgs = state.messages.slice(0,-1).map(mm=>{
+    if(mm.role==='user' && mm.images && mm.images.length){
+      return {role:'user',content:[{type:'text',text:mm.content},...mm.images.map(s=>({type:'image_url',image_url:{url:s}}))]};
+    }
+    return {role:mm.role,content:mm.content};
+  });
+  const payload = { builder, reviewer, messages:reqMsgs, max_iterations:3, think:state.think, max_tokens:state.maxTokens, temperature:state.temp, top_p:state.topP };
+  state.streaming=true; setSendState(true);
+  try{
+    const ctrl=new AbortController(); state.abort=ctrl;
+    const resp=await fetch(API+'/chat/collab',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),signal:ctrl.signal});
+    if(!resp.ok){const e=await resp.text();throw new Error('HTTP '+resp.status+': '+e.slice(0,200))}
+    const reader=resp.body.getReader(); const dec=new TextDecoder(); let buf='';
+    while(true){
+      const {done,value}=await reader.read(); if(done) break;
+      buf+=dec.decode(value,{stream:true});
+      let idx;
+      while((idx=buf.indexOf('\n\n'))>=0){ const block=buf.slice(0,idx); buf=buf.slice(idx+2); handleCollabSSE(block, asst); }
+    }
+  }catch(e){ asst.finalContent='⚠️ '+(e.message||'error'); asst.finalHtml=renderMarkdown(asst.finalContent); }
+  asst.streaming=false;
+  if(asst.finalContent) asst.finalHtml=renderMarkdown(asst.finalContent);
+  renderMessages(); setSendState(false); state.streaming=false;
+}
+function handleCollabSSE(block, asst){
+  const lines=block.split('\n'); let event=null,data='';
+  for(const l of lines){ if(l.startsWith('event:'))event=l.slice(6).trim().replace(/^eburon\.collab\./,''); else if(l.startsWith('data:'))data+=l.slice(5).trim(); }
+  if(!data || data==='[DONE]') return;
+  let obj; try{obj=JSON.parse(data)}catch(e){return}
+  if(event==='start'){ asst.builder=obj.builder; asst.reviewer=obj.reviewer; patchCollabLive(asst); return; }
+  if(event==='builder.start'){
+    asst.iterations.push({iter:obj.iteration,builderContent:'',builderReasoning:'',builderHtml:'',reviewContent:'',reviewReasoning:'',verdict:null,approved:false,phase:'building'});
+    patchCollabLive(asst); scrollTop(); return;
+  }
+  if(event==='builder.delta'){
+    const it=asst.iterations[asst.iterations.length-1]; if(!it)return;
+    if(obj.content){ it.builderContent+=obj.content; it.builderHtml=renderMarkdown(it.builderContent); }
+    if(obj.reasoning){ it.builderReasoning+=obj.reasoning; }
+    patchCollabLive(asst); if(atBottom()) scrollTop(); return;
+  }
+  if(event==='builder.done'){
+    const it=asst.iterations[asst.iterations.length-1]; if(it){ it.phase='reviewing'; it.builderHtml=renderMarkdown(it.builderContent); }
+    patchCollabLive(asst); return;
+  }
+  if(event==='review.start'){
+    const it=asst.iterations[asst.iterations.length-1]; if(it){ it.phase='reviewing'; }
+    patchCollabLive(asst); return;
+  }
+  if(event==='review.delta'){
+    const it=asst.iterations[asst.iterations.length-1]; if(!it)return;
+    if(obj.content){ it.reviewContent+=obj.content; }
+    if(obj.reasoning){ it.reviewReasoning+=obj.reasoning; }
+    return;
+  }
+  if(event==='review.done'){
+    const it=asst.iterations[asst.iterations.length-1]; if(it){ it.verdict=obj.verdict; }
+    patchCollabLive(asst); return;
+  }
+  if(event==='iteration'){
+    const it=asst.iterations[asst.iterations.length-1]; if(it){ it.approved=obj.approved; it.phase=obj.finished?'done':'revising'; }
+    patchCollabLive(asst); scrollTop(); return;
+  }
+  if(event==='final'){
+    asst.finalContent=obj.content||''; asst.finalHtml=renderMarkdown(asst.finalContent);
+    patchCollabLive(asst); scrollTop(); return;
+  }
+}
+function patchCollabLive(asst){
+  const i=state.messages.indexOf(asst); const wrap=document.querySelector(`.msg[data-i="${i}"]`); if(!wrap)return;
+  const c=wrap.querySelector('.content');
+  let el=c.querySelector('.collab');
+  if(!el){ el=buildCollabEl(asst); c.appendChild(el); }
+  updateCollabEl(el, asst);
+}
+function buildCollabEl(asst){
+  const el=document.createElement('div'); el.className='collab'; return el;
+}
+function verdictBadge(v, phase){
+  if(!v){ return `<span class="collab-verdict-badge pending">${phase==='building'?'Building…':phase==='reviewing'?'Reviewing…':'Pending'}</span>`; }
+  const cls = v.verdict==='approve'?'approve':'revise';
+  const icon = v.verdict==='approve'?'<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>':'<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9L1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>';
+  return `<span class="collab-verdict-badge ${cls}">${icon} ${v.verdict==='approve'?'Approved':'Revise'} <span class="sc">${v.score}/10</span></span>`;
+}
+function updateCollabEl(el, asst){
+  const bn = state.models[asst.builder]?.name||asst.builder;
+  const rn = state.models[asst.reviewer]?.name||asst.reviewer;
+  let html = `<div class="collab-header">
+    <div class="ch-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg></div>
+    <div class="ch-title">Dual-Model Collaboration</div>
+    <div class="ch-roles"><span class="collab-role builder">${bn}</span><span class="collab-arrow">⇄</span><span class="collab-role reviewer">${rn}</span></div>
+    <div class="collab-status">${asst.streaming?'<span class="sp"></span> Working…':'<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Complete'}</div>
+  </div>`;
+  asst.iterations.forEach((it,idx)=>{
+    const open = idx===asst.iterations.length-1 && asst.streaming ? true : (it.phase==='done' && !asst.streaming ? false : true);
+    const phaseLabel = it.phase==='building'?'Building…':it.phase==='reviewing'?'Reviewing…':it.phase==='revising'?'Revising…':'Done';
+    html += `<div class="collab-iter ${open?'open':''}" onclick="this.classList.toggle('open')">
+      <div class="collab-iter-head"><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg><span class="itnum">Iteration ${it.iter}</span> ${verdictBadge(it.verdict, it.phase)}</div>
+      <div class="collab-iter-body">
+        <div class="collab-sub">${modelTag(asst.builder)} Builder draft</div>
+        <div class="mdbody">${it.builderHtml||'<div class="collab-empty">Generating…</div>'}</div>`;
+    if(it.builderReasoning){
+      html += `<details class="think"><summary><svg class="ti" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21h6M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.3 1 2.5h6c0-1.2.3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg><span class="tlabel">Builder reasoning</span><span class="tcount">${wordCount(it.builderReasoning)} words</span></summary><div class="tbody"></div></details>`;
+    }
+    if(it.verdict){
+      html += `<div class="collab-sub">${modelTag(asst.reviewer)} Review</div>`;
+      html += `<div class="collab-feedback"><div class="cf-summary">${escapeHtml(it.verdict.summary)}</div>`;
+      if(it.verdict.issues&&it.verdict.issues.length) html += `<div class="cf-section"><div class="cf-label">Issues</div><ul>${it.verdict.issues.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')}</ul></div>`;
+      if(it.verdict.suggestions&&it.verdict.suggestions.length) html += `<div class="cf-section"><div class="cf-label">Suggestions</div><ul>${it.verdict.suggestions.map(x=>'<li>'+escapeHtml(x)+'</li>').join('')}</ul></div>`;
+      if(it.verdict.next_action&&it.verdict.next_action!=='done') html += `<div class="cf-next"><b>→ Builder:</b> ${escapeHtml(it.verdict.next_action)}</div>`;
+      html += `</div>`;
+    }
+    html += `</div></div>`;
+  });
+  if(asst.finalContent){
+    html += `<div class="collab-final-head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg> Final approved output</div><div class="collab-final-body"><div class="mdbody">${asst.finalHtml}</div></div>`;
+  } else if(!asst.streaming && !asst.iterations.length){
+    html += `<div class="collab-empty">No output generated.</div>`;
+  }
+  el.innerHTML = html;
+  // enhance artifacts in the final body and builder drafts
+  el.querySelectorAll('.collab-final-body .mdbody, .collab-iter-body .mdbody').forEach(b=>{
+    if(!b.dataset.enhanced){ enhanceArtifacts(b); b.dataset.enhanced='1'; }
+  });
 }
 
 async function streamChat(payload, asst){
@@ -569,7 +790,7 @@ function setMax(v){state.maxTokens=+v;$('#maxVal').textContent=v}
 function setTopP(v){state.topP=+v;$('#toppVal').textContent=(+v).toFixed(2)}
 function toggleDrawer(open){$('#drawer').classList.toggle('open',open);$('#overlay').classList.toggle('show',open)}
 function toggleSidebar(open){$('#sidebar').classList.toggle('open',open);$('#scrim').classList.toggle('show',open)}
-function newChat(){ if(state.streaming){stop()} state.messages=[]; renderEmpty(); }
+function newChat(){ if(state.streaming){stop()} state.messages=[]; state.artifacts={}; renderEmpty(); }
 
 $('#sendBtn').onclick=send;
 $('#input').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
@@ -579,6 +800,170 @@ $('#attachBtn').onclick=()=>$('#fileInput').click();
 $('#fileInput').onchange=e=>{addFiles([...e.target.files]);e.target.value=''};
 $('#settingsBtn').onclick=()=>toggleDrawer(true);
 $('#newChat').onclick=newChat;
+
+/* ---------- web artifacts ---------- */
+const THREE_CDN = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+function detectLang(code){
+  if(/<\s*(html|!doctype|body|head|svg|canvas)\b/i.test(code)) return 'html';
+  return '';
+}
+function buildHtmlDoc(html, css, js){
+  if(!html && !css && !js) return null;
+  const combined = html + '\n' + js + '\n' + css;
+  const usesThree = /THREE\.|three\.js|threejs|new\s+THREE\b/i.test(combined);
+  const hasThreeCDN = /three\.(min|r\d+).*\.js|cdn[^"']*three/i.test(html);
+  if(/<html|<!doctype/i.test(html)){
+    let doc = html;
+    if(usesThree && !hasThreeCDN){
+      if(/<head[^>]*>/i.test(doc)) doc = doc.replace(/<head[^>]*>/i, m => m + '<script src="'+THREE_CDN+'"><\/script>');
+      else doc = '<script src="'+THREE_CDN+'"><\/script>\n' + doc;
+    }
+    if(css){
+      if(/<\/head>/i.test(doc)) doc = doc.replace(/<\/head>/i, '<style>\n'+css+'\n</style>\n</head>');
+      else if(/<body/i.test(doc)) doc = doc.replace(/<body/i, '<head><style>\n'+css+'\n</style></head>\n<body');
+      else doc = '<head><style>\n'+css+'\n</style></head>\n' + doc;
+    }
+    if(js){
+      if(/<\/body>/i.test(doc)) doc = doc.replace(/<\/body>/i, '<script>\n'+js+'\n<\/script>\n</body>');
+      else doc += '\n<script>\n'+js+'\n<\/script>';
+    }
+    return doc;
+  }
+  let doc = '<!DOCTYPE html>\n<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">';
+  if(usesThree) doc += '<script src="'+THREE_CDN+'"><\/script>';
+  if(css) doc += '<style>\n'+css+'\n</style>';
+  doc += '<style>*{box-sizing:border-box}body{margin:0;font-family:system-ui,sans-serif}</style>';
+  doc += '</head><body>\n' + (html||'');
+  if(js) doc += '\n<script>\n'+js+'\n<\/script>';
+  doc += '\n</body></html>';
+  return doc;
+}
+function enhanceArtifacts(container){
+  const pres = container.querySelectorAll('pre');
+  if(!pres.length) return;
+  const blocks = [];
+  pres.forEach(pre => {
+    const codeEl = pre.querySelector('code');
+    const langEl = pre.querySelector('.lang');
+    if(!codeEl) return;
+    let lang = (langEl?langEl.textContent:'').trim().toLowerCase();
+    if(!lang) lang = detectLang(codeEl.textContent);
+    blocks.push({ pre, lang, code: codeEl.textContent });
+  });
+  const webLangs = ['html','htm','css','js','javascript'];
+  const webBlocks = blocks.filter(b => webLangs.includes(b.lang));
+  if(!webBlocks.length) return;
+  const htmlBlocks = webBlocks.filter(b => b.lang==='html'||b.lang==='htm');
+  if(!htmlBlocks.length){
+    // maybe JS-only with THREE/DOM manipulation
+    const jsBlocks = webBlocks.filter(b => b.lang==='js'||b.lang==='javascript');
+    if(jsBlocks.length && /THREE\.|document\.body|document\.createElement|requestAnimationFrame/i.test(jsBlocks.map(b=>b.code).join('\n'))){
+      const js = jsBlocks.map(b=>b.code).join('\n;\n');
+      const css = webBlocks.filter(b=>b.lang==='css').map(b=>b.code).join('\n');
+      const doc = buildHtmlDoc('', css, js);
+      if(doc){ replaceWithArtifact(webBlocks, doc); }
+    }
+    return;
+  }
+  // multiple complete HTML docs → separate artifacts
+  const completeDocs = htmlBlocks.filter(b => /<!doctype|<html/i.test(b.code));
+  if(completeDocs.length > 1){
+    completeDocs.forEach(b => {
+      const doc = buildHtmlDoc(b.code, '', '');
+      if(doc){ replaceWithArtifact([b], doc); }
+    });
+    // leftover css/js with first fragment-only html
+    const frags = htmlBlocks.filter(b => !/<!doctype|<html/i.test(b.code));
+    if(frags.length){
+      const html = frags.map(b=>b.code).join('\n');
+      const css = webBlocks.filter(b=>b.lang==='css').map(b=>b.code).join('\n');
+      const js = webBlocks.filter(b=>b.lang==='js'||b.lang==='javascript').map(b=>b.code).join('\n');
+      const doc = buildHtmlDoc(html, css, js);
+      if(doc){ replaceWithArtifact(frags.concat(webBlocks.filter(b=>b.lang==='css'||b.lang==='js'||b.lang==='javascript')), doc); }
+    }
+    return;
+  }
+  const html = htmlBlocks.map(b=>b.code).join('\n');
+  const css = webBlocks.filter(b=>b.lang==='css').map(b=>b.code).join('\n');
+  const js = webBlocks.filter(b=>b.lang==='js'||b.lang==='javascript').map(b=>b.code).join('\n;\n');
+  const doc = buildHtmlDoc(html, css, js);
+  if(doc) replaceWithArtifact(webBlocks, doc);
+}
+function replaceWithArtifact(blockList, doc){
+  const artId = 'art_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2,7);
+  state.artifacts[artId] = { doc };
+  const el = buildArtifactEl(artId);
+  const firstPre = blockList[0].pre;
+  firstPre.replaceWith(el);
+  blockList.slice(1).forEach(b => { if(b.pre.parentNode) b.pre.remove(); });
+}
+function buildArtifactEl(artId){
+  const art = state.artifacts[artId];
+  const wrap = document.createElement('div');
+  wrap.className = 'artifact';
+  wrap.dataset.art = artId;
+  wrap.innerHTML = `
+    <div class="artifact-bar">
+      <span class="artifact-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg><span class="adot"></span> Web Artifact</span>
+      <div class="artifact-tabs">
+        <button class="artifact-tab active" data-tab="preview" onclick="switchArtTab('${artId}','preview')">Preview</button>
+        <button class="artifact-tab" data-tab="code" onclick="switchArtTab('${artId}','code')">Code</button>
+      </div>
+      <div class="artifact-actions">
+        <button class="artifact-act" title="Copy code" onclick="copyArt('${artId}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg></button>
+        <button class="artifact-act" title="Download HTML" onclick="downloadArt('${artId}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></button>
+        <button class="artifact-act" title="Open in new tab" onclick="openArt('${artId}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></button>
+      </div>
+    </div>
+    <div class="artifact-preview" id="prev_${artId}"></div>
+    <div class="artifact-code" id="code_${artId}"><pre><code></code></pre></div>`;
+  const iframe = document.createElement('iframe');
+  iframe.setAttribute('sandbox','allow-scripts allow-modals allow-popups allow-forms allow-same-origin allow-pointer-lock');
+  iframe.srcdoc = art.doc;
+  iframe.style.cssText = 'width:100%;height:400px;border:none;display:block;background:#fff';
+  wrap.querySelector('#prev_'+artId).appendChild(iframe);
+  const codeEl = wrap.querySelector('#code_'+artId+' code');
+  codeEl.textContent = art.doc;
+  // drag-to-resize
+  const resizer = document.createElement('div'); resizer.className='artifact-resizer';
+  wrap.querySelector('#prev_'+artId).appendChild(resizer);
+  resizer.addEventListener('mousedown', e => {
+    e.preventDefault();
+    const startY = e.clientY, startH = iframe.offsetHeight;
+    const move = ev => { iframe.style.height = Math.max(120, startH + ev.clientY - startY) + 'px'; };
+    const up = () => { document.removeEventListener('mousemove',move); document.removeEventListener('mouseup',up); };
+    document.addEventListener('mousemove', move); document.addEventListener('mouseup', up);
+  });
+  return wrap;
+}
+function switchArtTab(id, tab){
+  const wrap = document.querySelector('.artifact[data-art="'+id+'"]');
+  if(!wrap) return;
+  wrap.querySelectorAll('.artifact-tab').forEach(t => t.classList.toggle('active', t.dataset.tab===tab));
+  wrap.querySelector('.artifact-preview').classList.toggle('hide', tab!=='preview');
+  wrap.querySelector('.artifact-code').classList.toggle('show', tab==='code');
+}
+function copyArt(id){
+  const art = state.artifacts[id]; if(!art) return;
+  navigator.clipboard.writeText(art.doc).then(()=>toast('Artifact copied to clipboard'));
+}
+function downloadArt(id){
+  const art = state.artifacts[id]; if(!art) return;
+  const blob = new Blob([art.doc], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'eburon-artifact-'+id.slice(4)+'.html';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url), 2000);
+  toast('Downloaded HTML file');
+}
+function openArt(id){
+  const art = state.artifacts[id]; if(!art) return;
+  const blob = new Blob([art.doc], {type:'text/html'});
+  const url = URL.createObjectURL(blob);
+  window.open(url, '_blank');
+  setTimeout(()=>URL.revokeObjectURL(url), 60000);
+}
 
 loadModels();
 </script>
